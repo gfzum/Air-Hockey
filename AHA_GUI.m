@@ -1,5 +1,3 @@
-%%%%%%%%%%Programmed by: Chi-Hang Kwan%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%Completion Date: December 13, 2012%%%%%%%%%%%%%%%%%%%
 function AHA_GUI
 clear all
 close all
@@ -108,6 +106,16 @@ tb.disp.end = uicontrol  ('Style','pushbutton','unit','pixels','string','End Gam
                           'position',[2*hgap+dispw dispy+70 panelw 50],'fontsize',20,...
                           'backgroundcolor',0.9*[1 1 1],'foregroundcolor', [1 0 0],...
                           'callback',{@callback_end,window},'enable','off','userdata',0);
+
+tb.disp.save = uicontrol('Style','pushbutton','unit','pixels','string','Save Game',...
+                          'position',[2*hgap+dispw dispy+140 panelw 50],'fontsize',20,...
+                          'backgroundcolor',0.9*[1 1 1],'foregroundcolor',0.8*[0 1 0],...
+                          'callback', {@save_game,window}); 
+                          
+tb.disp.load = uicontrol('Style','pushbutton','unit','pixels','string','Load Game',...
+                          'position',[2*hgap+dispw dispy+210 panelw 50],'fontsize',20,...
+                          'backgroundcolor',0.9*[1 1 1],'foregroundcolor',0.8*[0 1 0],...
+                          'callback', {@load_game,window}, 'enable', 'off','userdata',0);
                      
 %Drawing the "container" which contains all the gameplay objects 
 tb.container = axes('parent',window,'unit','pixels');
@@ -190,6 +198,8 @@ set(tb.disp.radio4,'enable','off');
 set(tb.disp.radio5,'enable','off');
 set(tb.disp.start, 'enable', 'off');
 set(tb.disp.end,'userdata',0); 
+set(tb.disp.save, 'enable', 'on');
+set(tb.disp.load, 'enable', 'on');
 AHA_gameplay(window,score);%start the game
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -221,5 +231,31 @@ switch get(get(tb.disp.ai,'SelectedObject'),'Tag')
     case 'difficult'
         set(tb.disp.ai,'userdata',1)
 end
+
+function save_game(src, event, window)
+tb = get(window,'UserData');
+save('savefile.mat');
+set(tb.disp.save,'userdata',1);
+
+
+function load_game(src, event, window)
+callback_end(src,event,window)
+close(window)
+load('savefile.mat');
+tb = get(window,'UserData');
+
+% %get how many goals are required for a win
+score = get(tb.disp.race,'userdata');
+% %disable unnecessary buttons and set the end state to 0
+set(tb.disp.radio1,'enable','off');
+set(tb.disp.radio2,'enable','off');
+set(tb.disp.radio3,'enable','off');
+set(tb.disp.radio4,'enable','off');
+set(tb.disp.radio5,'enable','off');
+set(tb.disp.start, 'enable','off');
+set(tb.disp.end,'userdata',0); 
+set(tb.disp.save, 'enable', 'on');
+set(tb.disp.load, 'enable', 'on');
+AHA_gameplay(window,score);%start the game
 
 

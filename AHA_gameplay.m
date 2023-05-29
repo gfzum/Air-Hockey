@@ -1,5 +1,3 @@
-%%%%%%%%%%Programmed by: Chi-Hang Kwan%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%Completion Date: December 13, 2012%%%%%%%%%%%%%%%%%%%
 function AHA_gameplay(window,score)
 tb = get(window,'UserData');
 

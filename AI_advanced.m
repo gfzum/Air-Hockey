@@ -1,6 +1,3 @@
-%%%%%%%%%%Programmed by: Chi-Hang Kwan%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%Completion Date: December 13, 2012%%%%%%%%%%%%%%%%%%%
-
 function posc_new = AI_advanced(window,pos,vel,posc,tstep)
 
 tb = get(window,'UserData');
